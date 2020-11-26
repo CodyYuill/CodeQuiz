@@ -33,11 +33,21 @@ function submitScore(){
     listItem.textContent = initalsInputEl.value;
     alert(listItem.textContent);
     hsList.append(listItem);
+    
+    //TODO also submit whatever score the user gets
+    /*TODO run through list to determine where highscore should be placed on list 
+    list.insertBefore(newItem, list.childNodes[0]);  // Insert <li> before the first child of <ul>
+    */
+
+    reset();
+}
+
+function reset()
+{
     submitHighscoreDiv.setAttribute("style", "display: none;");
     time = 75;
     timePTag.textContent = `${time} seconds remaining`;
     startBtn.disabled = false;
-    //TODO also submit whatever score the user gets
 }
 
 
