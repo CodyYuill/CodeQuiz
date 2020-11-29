@@ -13,6 +13,7 @@ var Users = [];
 
 //how long user has to complete quiz
 var time = 75;
+var timerSpeed = 100;
 
 //timer to show user how mush time they have left
 var timer;
@@ -23,7 +24,6 @@ var timePTag = document.getElementById("Timer");
 var startBtn = document.getElementById("startBtn");
 var testBtn = document.getElementById("testBtn");
 
-var hsList = document.getElementById("highscoresList");
 
 var submitHighscoreDiv = document.getElementById("submitHighscore");
 var initalsInputEl = document.getElementById("initalsInput");
@@ -46,7 +46,7 @@ function startTimer()
         {
             finishQuiz();
         }
-    }, 1000);
+    }, timerSpeed);
 }
 
 function getInput()
@@ -69,7 +69,9 @@ function submitScore()
         //alert("first user added")
         Users.push(newUser);
         //update highscore list on page
-        updateHighscoreList();
+        //updateHighscoreList();
+        localStorage.setItem("highscores", JSON.stringify(Users));
+
     }
     //otherwise go through arraay and place user on list based on their score
     else
@@ -91,7 +93,9 @@ function submitScore()
                 //any users
                 Users.splice(i, 0, newUser);
                 //update highscore list on page
-                updateHighscoreList();
+                //updateHighscoreList();
+                localStorage.setItem("highscores", JSON.stringify(Users));
+
                 //alert("new user added");
                 //IMPORTANT MUST END FOR LOOP OTHERWISE WILL LOPP
                 //INFINITLY BECAUSE LENGHT OF USERS ARRAY WILL ALWAYS BE GROWING
@@ -107,7 +111,8 @@ function submitScore()
             //right on to the back of the array
             Users.push(newUser);
             //update highscore list on page
-            updateHighscoreList();
+            //updateHighscoreList();
+            localStorage.setItem("highscores", JSON.stringify(Users));
         }
     }
     //reset page values
@@ -115,42 +120,6 @@ function submitScore()
 }
 
 
-function updateHighscoreList()
-{
-    //if there is only one object in array just append a new <li>
-    if(Users.length == 1)
-    {
-        //create list item to add
-        var listItem = document.createElement('li');
-        //set text of list item to user name and score
-        listItem.textContent = `${Users[0].Name} - ${Users[0].Score}`;
-        //alert(listItem.textContent);
-        hsList.append(listItem); 
-    }
-    //otherwise destroy list and recreate with new user
-    else
-    {
-        //clear list so we can recreate with new user
-        //loop through the list while it has a firstchild
-        //if no first child list is empty and will breal loop
-        while(hsList.firstChild)
-        {
-            //remove the first child from list
-            hsList.removeChild(hsList.firstChild);
-        }
-        //recreate list with new user
-        for(var i = 0; i < Users.length; i++)
-        {
-            //create list item
-            var listItem = document.createElement('li');
-            //set text of list item to user name and score
-            listItem.textContent = `${Users[i].Name} - ${Users[i].Score}`;
-            //alert(listItem.textContent);
-            hsList.append(listItem);  
-        }
-    }
-    //alert("user added!");
-}
 
 function reset()
 {
@@ -174,9 +143,15 @@ function finishQuiz()
     submitHighscoreDiv.dispatchEvent(quizFinishEvent);
 }
 
-
+//display timer on screen on page start
 timePTag.textContent = `${time} seconds remaining`;
+
+//EVENT LISTENERS
+//start timer on start button click
 startBtn.addEventListener("click", startTimer);
+//test button to end quiz early
 testBtn.addEventListener("click", finishQuiz);
+//submit user name and score when submit button is pressed
 submitInitalsBtn.addEventListener("click", submitScore);
+//display input field when quiz ends
 submitHighscoreDiv.addEventListener("timerDone", getInput);
