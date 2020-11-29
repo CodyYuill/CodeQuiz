@@ -13,7 +13,7 @@ var Users = [];
 
 //how long user has to complete quiz
 var time = 75;
-var timerSpeed = 100;
+var timerSpeed = 1000;
 
 //timer to show user how mush time they have left
 var timer;
@@ -141,14 +141,26 @@ function finishQuiz()
     submitHighscoreDiv.dispatchEvent(quizFinishEvent);
 }
 
+function timePenalty()
+{
+    time -= 15;
+    if(time <= 0)
+    {
+        time = 0;
+        timePTag.textContent = `${time} seconds remaining`;
+        clearInterval(timer);
+        finishQuiz();
+    }
+}
+
 //display timer on screen on page start
 timePTag.textContent = `${time} seconds remaining`;
 
 //EVENT LISTENERS
 //start timer on start button click
 startBtn.addEventListener("click", startTimer);
-//test button to end quiz early
-testBtn.addEventListener("click", finishQuiz);
+//test button
+testBtn.addEventListener("click", timePenalty);
 //submit user name and score when submit button is pressed
 submitInitalsBtn.addEventListener("click", submitScore);
 //display input field when quiz ends
