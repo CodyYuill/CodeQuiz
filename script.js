@@ -119,8 +119,6 @@ function submitScore()
     reset();
 }
 
-
-
 function reset()
 {
     //set display of inpout field to none

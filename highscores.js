@@ -1,4 +1,5 @@
 var hsList = document.getElementById("highscoresList");
+var clearBtn = document.getElementById("clearBtn");
 
 function updateHighscoreList()
 {
@@ -18,13 +19,7 @@ function updateHighscoreList()
     else
     {
         //clear list so we can recreate with new user
-        //loop through the list while it has a firstchild
-        //if no first child list is empty and will breal loop
-        while(hsList.firstChild)
-        {
-            //remove the first child from list
-            hsList.removeChild(hsList.firstChild);
-        }
+        clearHighscores();
         //recreate list with new user
         for(var i = 0; i < Users.length; i++)
         {
@@ -39,7 +34,23 @@ function updateHighscoreList()
     //alert("user added!");
 }
 
+function clearHighscores()
+{
+    
+    //loop through the list while it has a firstchild
+    //if no first child list is empty and will breal loop
+    while(hsList.firstChild)
+    {
+        //remove the first child from list
+        hsList.removeChild(hsList.firstChild);
+    }
+
+    localStorage.setItem("highscores", "");
+}
+
 
 
 updateHighscoreList();
 
+
+clearBtn.addEventListener("click", clearHighscores);
