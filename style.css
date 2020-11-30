@@ -6,3 +6,10 @@
 #Timer{
     float: right;
 }
+
+.Correct{
+    color: green;
+}
+.Incorrect{
+    color: red;
+}

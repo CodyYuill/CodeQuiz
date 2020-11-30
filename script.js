@@ -13,7 +13,7 @@ function User(score, name)
 var time = 75;
 var timerSpeed = 1000;
 
-//timer to show user how mush time they have left
+//timer to show user how much time they have left
 var timer;
 
 var currentQuestion = 0;
@@ -26,6 +26,7 @@ var startBtn = document.getElementById("startBtn");
 var testBtn = document.getElementById("testBtn");
 
 var questionArea = document.getElementById("questionArea");
+var rightWrongText = document.getElementById("rightWrongText");
 
 
 var submitHighscoreDiv = document.getElementById("submitHighscore");
@@ -67,7 +68,11 @@ function checkAnswer()
     {
         timePenalty();
         timePTag.textContent = `${time} seconds remaining`;
-
+        displayRightOrWrong("Incorrect");
+    }
+    else
+    {
+        displayRightOrWrong("Correct");
     }
     currentQuestion++;
 
@@ -211,6 +216,17 @@ function timePenalty()
         clearInterval(timer);
         finishQuiz();
     }
+}
+
+function displayRightOrWrong(text)
+{
+    rightWrongText.setAttribute("class", text);
+    rightWrongText.textContent = text;
+    window.setTimeout(function(){
+        rightWrongText.textContent = "";
+        rightWrongText.removeAttribute("class");
+
+    }, 1000);
 }
 
 //display timer on screen on page start
