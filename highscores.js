@@ -21,7 +21,7 @@ function updateHighscoreList()
     else
     {
         //clear list so we can recreate with new user
-        clearHighscores();
+        //clearHighscores();
         //recreate list with new user
         for(var i = 0; i < Users.length; i++)
         {
@@ -37,8 +37,11 @@ function updateHighscoreList()
 
 function clearHighscores()
 {
+    //delete lists inner html so that highscores get taken off the screen
+    hsList.innerHTML = "";
     //remove highscores key from localstorage
     window.localStorage.removeItem("highscores");
+    updateHighscoreList();
 }
 
 
