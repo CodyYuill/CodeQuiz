@@ -18,17 +18,44 @@ var timerSpeed = 1000;
 //timer to show user how mush time they have left
 var timer;
 
+var currentQuestion = 0;
+
 //HTML ELEMENTS
 var timePTag = document.getElementById("Timer");
 
+var startArea = document.getElementById("startArea");
 var startBtn = document.getElementById("startBtn");
 var testBtn = document.getElementById("testBtn");
+
+var questionArea = document.getElementById("questionArea");
 
 
 var submitHighscoreDiv = document.getElementById("submitHighscore");
 var initalsInputEl = document.getElementById("initalsInput");
 var submitInitalsBtn = document.getElementById("submitBtn");
 
+
+function startQuiz()
+{
+    startTimer();
+    startArea.setAttribute("class", "hide");
+    questionArea.removeAttribute("class", "hide");
+    displayQuestion();
+}
+
+function displayQuestion()
+{
+    var question = questions[currentQuestion];
+    var questionsDiv = document.getElementById("questions");
+    var questionTitle = document.getElementById("Title");
+    questionsDiv.innerHTML = "";
+    question.choices.forEach(function(choice, i) {
+        var choiceBtn = document.createElement("button");
+        //choiceBtn.setAttribute("value", choice);
+        choiceBtn.textContent = `${i+1}. ${choice}`;
+        questionsDiv.appendChild(choiceBtn);
+    });
+}
 
 function startTimer()
 {
@@ -52,7 +79,7 @@ function startTimer()
 function getInput()
 {
     //display input field for user to fill out and submit
-    submitHighscoreDiv.setAttribute("style", "display: block;");
+    submitHighscoreDiv.removeAttribute("class", "hide");
     //dont know why addclass or remove class arent working
     //submitHighscoreDiv.removeClass('hide');
 }
@@ -121,8 +148,12 @@ function submitScore()
 
 function reset()
 {
-    //set display of inpout field to none
-    submitHighscoreDiv.setAttribute("style", "display: none;");
+    //set display of input field to none
+    submitHighscoreDiv.setAttribute("class", "hide");
+    startArea.removeAttribute("class", "hide");
+    questionArea.setAttribute("class", "hide");
+
+
     //reset time to default value should maybe not be hardcoded
     time = 75;
     //display reset time on page
@@ -157,11 +188,50 @@ function timePenalty()
 timePTag.textContent = `${time} seconds remaining`;
 
 //EVENT LISTENERS
-//start timer on start button click
-startBtn.addEventListener("click", startTimer);
+//start quiz on start button click
+startBtn.addEventListener("click", startQuiz);
 //test button
 testBtn.addEventListener("click", timePenalty);
 //submit user name and score when submit button is pressed
 submitInitalsBtn.addEventListener("click", submitScore);
 //display input field when quiz ends
 submitHighscoreDiv.addEventListener("timerDone", getInput);
+
+
+
+
+
+var questions = [
+    {
+      title: "Commonly used data types DO NOT include:",
+      choices: ["strings", "booleans", "alerts", "numbers"],
+      answer: "alerts"
+    },
+    {
+      title: "The condition in an if / else statement is enclosed within ____.",
+      choices: ["quotes", "curly brackets", "parentheses", "square brackets"],
+      answer: "parentheses"
+    },
+    {
+      title: "Arrays in JavaScript can be used to store ____.",
+      choices: [
+        "numbers and strings",
+        "other arrays",
+        "booleans",
+        "all of the above"
+      ],
+      answer: "all of the above"
+    },
+    {
+      title:
+        "String values must be enclosed within ____ when being assigned to variables.",
+      choices: ["commas", "curly brackets", "quotes", "parentheses"],
+      answer: "quotes"
+    },
+    {
+      title:
+        "A very useful tool used during development and debugging for printing content to the debugger is:",
+      choices: ["JavaScript", "terminal / bash", "for loops", "console.log"],
+      answer: "console.log"
+    }
+  ];
