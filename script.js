@@ -62,6 +62,8 @@ function displayNextQuestion()
     question.choices.forEach(function(choice, i) {
         //create the button
         var choiceBtn = document.createElement("button");
+        //give it a class for formatting
+        choiceBtn.setAttribute("class", "choiceBtn");
         //set the button data to choice string to compare to answer
         choiceBtn.setAttribute("data-answer", choice);
         //add event listener for button onclick to check answer
