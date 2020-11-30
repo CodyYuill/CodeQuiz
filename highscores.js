@@ -3,6 +3,7 @@ var clearBtn = document.getElementById("clearBtn");
 
 function updateHighscoreList()
 {
+    //get highscore from localstorage or creater empty array
     var Users = JSON.parse(window.localStorage.getItem("highscores")) || [];
 
 
@@ -13,14 +14,14 @@ function updateHighscoreList()
         var listItem = document.createElement('li');
         //set text of list item to user name and score
         listItem.textContent = `${Users[0].Name} - ${Users[0].Score}`;
-        //alert(listItem.textContent);
+        //addit to html
         hsList.append(listItem); 
     }
     //otherwise destroy list and recreate with new user
     else
     {
         //clear list so we can recreate with new user
-        //clearHighscores();
+        clearHighscores();
         //recreate list with new user
         for(var i = 0; i < Users.length; i++)
         {
@@ -32,11 +33,11 @@ function updateHighscoreList()
             hsList.append(listItem);  
         }
     }
-    //alert("user added!");
 }
 
 function clearHighscores()
 {
+    //remove highscores key from localstorage
     window.localStorage.removeItem("highscores");
 }
 

@@ -16,6 +16,7 @@ var timerSpeed = 1000;
 //timer to show user how much time they have left
 var timer;
 
+//index of current question
 var currentQuestion = 0;
 
 //HTML ELEMENTS
@@ -36,52 +37,77 @@ var submitInitalsBtn = document.getElementById("submitBtn");
 
 function startQuiz()
 {
+    //start quiz timer
     startTimer();
+    //hide start area
     startArea.setAttribute("class", "hide");
+    //unhide question area
     questionArea.removeAttribute("class", "hide");
+    //start displaying questions
     displayNextQuestion();
 }
 
 function displayNextQuestion()
 {
+    //get the current question
     var question = questions[currentQuestion];
+    //access needed html elements
     var questionsDiv = document.getElementById("questions");
     var questionTitle = document.getElementById("Title");
+    //display the question to user
     questionTitle.textContent = question.title;
+    //clear question choices
     questionsDiv.innerHTML = "";
+    //add choices for current question
     question.choices.forEach(function(choice, i) {
+        //create the button
         var choiceBtn = document.createElement("button");
+        //set the button data to choice string to compare to answer
         choiceBtn.setAttribute("data-answer", choice);
+        //add event listener for button onclick to check answer
         choiceBtn.onclick = checkAnswer;
+        //set button text to choice
         choiceBtn.textContent = `${i+1}. ${choice}`;
+        //add button to html
         questionsDiv.appendChild(choiceBtn);
     });
 }
 
 function checkAnswer()
 {
-
+    //get current question
     var question = questions[currentQuestion];
+    //get questions answer
     var answer = question.answer;
     
+    //is answer wrong
     if(this.getAttribute("data-answer") !== answer)
     {
+        //apply time penalty
         timePenalty();
+        //apply time change o display
         timePTag.textContent = `${time} seconds remaining`;
+        //notify user they are wrong
         displayRightOrWrong("Incorrect");
     }
+    //is answer right
     else
     {
+        //notify user they are right
         displayRightOrWrong("Correct");
     }
+    //increment question index
     currentQuestion++;
 
+    //if that was last question
     if(currentQuestion >= questions.length)
     {
+        //finsih quiz
         finishQuiz();
     }
     else
     {
+        //otherwise go to next question
        displayNextQuestion();
     }
 }
@@ -109,25 +135,22 @@ function getInput()
 {
     //display input field for user to fill out and submit
     submitHighscoreDiv.removeAttribute("class", "hide");
-    //dont know why addclass or remove class arent working
-    //submitHighscoreDiv.removeClass('hide');
 }
 
 function submitScore()
 {
+    //get highscores from loaclastorage or create an empty array
     var Users = JSON.parse(window.localStorage.getItem("highscores")) || [];
 
     //create a new USer object 
-    //set score to remaing time
+    //set score to remaining time
     //set name to input 
     var newUser = new User(parseInt(timePTag.textContent), initalsInputEl.value);
     //if users is empty push new user directly onto array
     if(Users.length == 0)
     {
-        //alert("first user added")
         Users.push(newUser);
-        //update highscore list on page
-        //updateHighscoreList();
+        //update highscore list on local storage
         localStorage.setItem("highscores", JSON.stringify(Users));
 
     }
@@ -140,7 +163,6 @@ function submitScore()
         //go through Users array to compare scores
         for(var i = 0; i < Users.length; i++) 
         {
-            //alert("im in the for loop");
             //check if new score is higher than score at the current index
             //of users array
             if(newUser.Score > Users[i].Score)
@@ -150,12 +172,9 @@ function submitScore()
                 //place user directly into array at proper index WITHOUT DELETING 
                 //any users
                 Users.splice(i, 0, newUser);
-                //update highscore list on page
-                //updateHighscoreList();
+                //update highscore list on localstorage
                 localStorage.setItem("highscores", JSON.stringify(Users));
-
-                //alert("new user added");
-                //IMPORTANT MUST END FOR LOOP OTHERWISE WILL LOPP
+                //IMPORTANT MUST END FOR LOOP OTHERWISE WILL LOOP
                 //INFINITLY BECAUSE LENGHT OF USERS ARRAY WILL ALWAYS BE GROWING
                 break;
             }
@@ -164,12 +183,10 @@ function submitScore()
         //check if user has been added
         if(!wasAdded)
         {
-            //alert("good thing you put this here")
             //if not that means they have the lowest score and can be pushed
             //right on to the back of the array
             Users.push(newUser);
-            //update highscore list on page
-            //updateHighscoreList();
+            //update highscore list on localstorage
             localStorage.setItem("highscores", JSON.stringify(Users));
         }
     }
@@ -179,8 +196,9 @@ function submitScore()
 
 function reset()
 {
+    //set curernt question to first question
     currentQuestion = 0;
-    //set display of input field to none
+    //hide and unhide necessary areas
     submitHighscoreDiv.setAttribute("class", "hide");
     startArea.removeAttribute("class", "hide");
     questionArea.setAttribute("class", "hide");
@@ -192,14 +210,13 @@ function reset()
     timePTag.textContent = `${time} seconds remaining`;
     //re-enable start button
     startBtn.disabled = false;
-    //dont know why addclass or remove class arent working
-    //submitHighscoreDiv.addClass(".hide");
 }
 
 function finishQuiz()
 {
     //stop timer from running
     clearInterval(timer);
+    //hide question area
     questionArea.setAttribute("class", "hide");
 
     //trigger quiz finsihed event
@@ -208,20 +225,29 @@ function finishQuiz()
 
 function timePenalty()
 {
+    //take 15 seconds away
     time -= 15;
+    //is time under 0?
     if(time <= 0)
     {
+        //set time to zero so timer doesnt go vor ever
         time = 0;
+        //display timer on page
         timePTag.textContent = `${time} seconds remaining`;
+        //stop timer
         clearInterval(timer);
+        //end quiz
         finishQuiz();
     }
 }
 
 function displayRightOrWrong(text)
 {
+    //set to proper class for color 
     rightWrongText.setAttribute("class", text);
+    //set text 
     rightWrongText.textContent = text;
+    //after one second reset to blank so it doesnt appear anymore
     window.setTimeout(function(){
         rightWrongText.textContent = "";
         rightWrongText.removeAttribute("class");
@@ -245,7 +271,7 @@ submitHighscoreDiv.addEventListener("timerDone", getInput);
 
 
 
-
+//list of questions
 var questions = [
     {
       title: "Commonly used data types DO NOT include:",
