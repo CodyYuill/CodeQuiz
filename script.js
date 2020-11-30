@@ -8,8 +8,6 @@ function User(score, name)
     this.Name = name;
 }
 
-//array to be filled with user objects
-var Users = [];
 
 //how long user has to complete quiz
 var time = 75;
@@ -40,21 +38,47 @@ function startQuiz()
     startTimer();
     startArea.setAttribute("class", "hide");
     questionArea.removeAttribute("class", "hide");
-    displayQuestion();
+    displayNextQuestion();
 }
 
-function displayQuestion()
+function displayNextQuestion()
 {
     var question = questions[currentQuestion];
     var questionsDiv = document.getElementById("questions");
     var questionTitle = document.getElementById("Title");
+    questionTitle.textContent = question.title;
     questionsDiv.innerHTML = "";
     question.choices.forEach(function(choice, i) {
         var choiceBtn = document.createElement("button");
-        //choiceBtn.setAttribute("value", choice);
+        choiceBtn.setAttribute("data-answer", choice);
+        choiceBtn.onclick = checkAnswer;
         choiceBtn.textContent = `${i+1}. ${choice}`;
         questionsDiv.appendChild(choiceBtn);
     });
+}
+
+function checkAnswer()
+{
+
+    var question = questions[currentQuestion];
+    var answer = question.answer;
+    
+    if(this.getAttribute("data-answer") !== answer)
+    {
+        timePenalty();
+        timePTag.textContent = `${time} seconds remaining`;
+
+    }
+    currentQuestion++;
+
+    if(currentQuestion >= questions.length)
+    {
+        finishQuiz();
+    }
+    else
+    {
+       displayNextQuestion();
+    }
 }
 
 function startTimer()
@@ -86,6 +110,8 @@ function getInput()
 
 function submitScore()
 {
+    var Users = JSON.parse(window.localStorage.getItem("highscores")) || [];
+
     //create a new USer object 
     //set score to remaing time
     //set name to input 
@@ -148,6 +174,7 @@ function submitScore()
 
 function reset()
 {
+    currentQuestion = 0;
     //set display of input field to none
     submitHighscoreDiv.setAttribute("class", "hide");
     startArea.removeAttribute("class", "hide");
@@ -168,6 +195,8 @@ function finishQuiz()
 {
     //stop timer from running
     clearInterval(timer);
+    questionArea.setAttribute("class", "hide");
+
     //trigger quiz finsihed event
     submitHighscoreDiv.dispatchEvent(quizFinishEvent);
 }
@@ -191,7 +220,7 @@ timePTag.textContent = `${time} seconds remaining`;
 //start quiz on start button click
 startBtn.addEventListener("click", startQuiz);
 //test button
-testBtn.addEventListener("click", timePenalty);
+//testBtn.addEventListener("click", timePenalty);
 //submit user name and score when submit button is pressed
 submitInitalsBtn.addEventListener("click", submitScore);
 //display input field when quiz ends

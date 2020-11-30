@@ -3,7 +3,8 @@ var clearBtn = document.getElementById("clearBtn");
 
 function updateHighscoreList()
 {
-    var Users = JSON.parse(localStorage.getItem("highscores")) || [];
+    var Users = JSON.parse(window.localStorage.getItem("highscores")) || [];
+
 
     //if there is only one object in array just append a new <li>
     if(Users.length == 1)
@@ -19,7 +20,7 @@ function updateHighscoreList()
     else
     {
         //clear list so we can recreate with new user
-        clearHighscores();
+        //clearHighscores();
         //recreate list with new user
         for(var i = 0; i < Users.length; i++)
         {
@@ -36,16 +37,7 @@ function updateHighscoreList()
 
 function clearHighscores()
 {
-    
-    //loop through the list while it has a firstchild
-    //if no first child list is empty and will breal loop
-    while(hsList.firstChild)
-    {
-        //remove the first child from list
-        hsList.removeChild(hsList.firstChild);
-    }
-
-    localStorage.setItem("highscores", "");
+    window.localStorage.removeItem("highscores");
 }
 
 
