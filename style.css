@@ -1,10 +1,17 @@
 
+a{
+    text-decoration: none;
+    color: coral;
+}
+
 .hide{
     display: none;
 }
 
 #Timer{
-    float: right;
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
 
 .Correct{
@@ -26,7 +33,47 @@ button{
     color: white;
 }
 
+button:hover {
+    background-color: rgba(255, 127, 80, 0.884);
+}
+
 .choiceBtn{
     padding: 20px;
     display: block;
+    margin-left: 20%;
+}
+
+#startBtn{
+    font-size: 25px;
+    padding: 10px;
+}
+
+#startArea, #questionArea {
+    text-align: center;
+    align-items: center;
+}
+
+.startText {
+    font-size: 25px;
+}
+
+#highscoresList {
+    list-style-position: inside;
+}
+
+li{
+    font-size: 20px;
+    padding: 5px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+li:nth-of-type(odd) {
+    background-color: coral;
+    color: white;
+}
+
+.listTitle{
+    text-align: center;
+    font-size: 35px;
 }
