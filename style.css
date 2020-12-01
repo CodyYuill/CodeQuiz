@@ -22,12 +22,11 @@ button{
     border-radius: 5%;
     border: none;
     text-decoration: none;
-    display: inline-block;
-    margin-right: 500px;
     margin-bottom: 10px;
     color: white;
 }
 
 .choiceBtn{
     padding: 20px;
+    display: block;
 }
