@@ -1,5 +1,6 @@
 
 a{
+    font-size: 20px;
     text-decoration: none;
     color: coral;
 }
@@ -9,6 +10,7 @@ a{
 }
 
 #Timer{
+    font-size: 20px;
     position: absolute;
     top: 5px;
     right: 5px;
@@ -23,6 +25,7 @@ a{
 }
 
 button{
+    font-size: 25px;
     background-color: coral;
     padding: 5px;
     text-align: center;
@@ -38,19 +41,22 @@ button:hover {
 }
 
 .choiceBtn{
-    padding: 20px;
+    padding: 10px;
     display: block;
     margin-left: 20%;
 }
 
 #startBtn{
-    font-size: 25px;
     padding: 10px;
+    padding-left:  20px;
+    padding-right: 20px;
 }
 
-#startArea, #questionArea {
+#startArea, 
+#questionArea,
+#submitHighscore,
+#hsArea {
     text-align: center;
-    align-items: center;
 }
 
 .startText {
@@ -76,4 +82,42 @@ li:nth-of-type(odd) {
 .listTitle{
     text-align: center;
     font-size: 35px;
+}
+
+.hsArea button{
+    padding: 8px;
+}
+
+.backBtn{
+    margin-left: 20%;
+}
+
+.backBtn{
+    padding-left:  20px !important;
+    padding-right: 20px !important;
+}
+
+.backBtn a{
+    color:white;
+}
+
+#submitHighscore {
+    font-size: 25px;
+}
+
+#initialsInput{
+    border-color: coral;
+    font-size: 25px;
+    color: cornflowerblue;
+}
+
+#initialsInput::placeholder{
+    color: rgba(255, 68, 0, 0.753);
+}
+
+
+#initialsInput:focus, 
+a:focus, 
+button:focus{
+    outline-color: rgb(255, 92, 32);
 }

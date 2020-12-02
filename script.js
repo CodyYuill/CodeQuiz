@@ -31,8 +31,8 @@ var rightWrongText = document.getElementById("rightWrongText");
 
 
 var submitHighscoreDiv = document.getElementById("submitHighscore");
-var initalsInputEl = document.getElementById("initalsInput");
-var submitInitalsBtn = document.getElementById("submitBtn");
+var initialsInputEl = document.getElementById("initialsInput");
+var submitInitialsBtn = document.getElementById("submitBtn");
 
 
 function startQuiz()
@@ -139,15 +139,16 @@ function getInput()
     submitHighscoreDiv.removeAttribute("class", "hide");
 }
 
-function submitScore()
+function submitScore(e)
 {
+    e.preventDefault();
     //get highscores from loaclastorage or create an empty array
     var Users = JSON.parse(window.localStorage.getItem("highscores")) || [];
 
     //create a new USer object 
     //set score to remaining time
     //set name to input 
-    var newUser = new User(parseInt(timePTag.textContent), initalsInputEl.value);
+    var newUser = new User(parseInt(timePTag.textContent), initialsInputEl.value);
     //if users is empty push new user directly onto array
     if(Users.length == 0)
     {
@@ -192,8 +193,8 @@ function submitScore()
             localStorage.setItem("highscores", JSON.stringify(Users));
         }
     }
-    //reset page values
-    reset();
+    //bring user to highscore page
+    window.location.href = "highscores.html";
 }
 
 function reset()
@@ -257,18 +258,25 @@ function displayRightOrWrong(text)
     }, 1000);
 }
 
+//ensure everything is set properly when we enter the main page 
+reset();
 //display timer on screen on page start
 timePTag.textContent = `${time} seconds remaining`;
 
 //EVENT LISTENERS
 //start quiz on start button click
 startBtn.addEventListener("click", startQuiz);
-//test button
-//testBtn.addEventListener("click", timePenalty);
-//submit user name and score when submit button is pressed
-submitInitalsBtn.addEventListener("click", submitScore);
+//submit user name and score when submit button is pressed or when enter is hit
+submitHighscoreDiv.addEventListener("submit", submitScore, false);
+
 //display input field when quiz ends
 submitHighscoreDiv.addEventListener("timerDone", getInput);
+
+
+
+
+
+
 
 
 
